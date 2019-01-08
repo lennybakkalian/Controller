@@ -1,20 +1,92 @@
 package de.fettesteil.controller.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import de.fettesteil.controller.Main;
+import de.fettesteil.controller.Server;
+import de.fettesteil.controller.TickThread;
 
 public class ServersPanel extends JPanel {
 
-	public JList<String> list;
+	private DefaultTableModel tableModel;
+	private String[] columnName = { "Name", "Standort", "Adresse", "Ping" };
+	public List<Server> servers = new ArrayList<Server>();
+	private JTable serverList;
 
 	public ServersPanel() {
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(0, 0));
+		tableModel = new DefaultTableModel() {
+			@Override
+			public int getColumnCount() {
+				return columnName.length;
+			}
 
-		list = new JList<String>();
-		add(list, BorderLayout.WEST);
+			@Override
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
 
+			@Override
+			public String getColumnName(int column) {
+				return columnName[column];
+			}
+		};
+		serverList = new JTable(tableModel);
+		serverList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(new JScrollPane(serverList), BorderLayout.CENTER);
+	}
+
+	public void addServer(Server s) {
+		servers.add(s);
+		repaintServers();
+	}
+
+	public void deleteServer(Server s) {
+		servers.remove(s);
+		repaintServers();
+	}
+
+	public void repaintServers() {
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				tableModel.setRowCount(0);
+				tableModel.addRow(new Object[] { Main.tableServer.getName(), "", Main.tableServer.getAddress(),
+						String.valueOf(TickThread.ping) });
+				for (Server s : servers)
+					tableModel.addRow(new Object[] { s.getName(), s.getLocation(), s.getAddress(), s.getPing() });
+				for (int i = 0; i < serverList.getColumnCount(); i++) {
+					serverList.getColumnModel().getColumn(i).setCellRenderer(new CustomRenderer());
+				}
+			}
+		});
+	}
+
+	class CustomRenderer extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 6703872492730589499L;
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+					column);
+			if (row == 0) {
+				cellComponent.setBackground(Color.BLACK);
+				cellComponent.setForeground(Color.WHITE);
+			}
+			
+			return cellComponent;
+		}
 	}
 }

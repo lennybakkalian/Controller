@@ -11,16 +11,19 @@ public class MainFrame extends JFrame {
 	
 	public JTabbedPane tabBar;
 	
+	public ServersPanel serversPanel;
+	
 	public MainFrame() {
 		super("Server Controller");
-		setVisible(true);
 		setLayout(new BorderLayout());
 		setSize(1280, 720);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		serversPanel = new ServersPanel();
+		
 		tabBar = new JTabbedPane();
-		tabBar.add("Servers", new ServersPanel());
+		tabBar.add("Servers", serversPanel);
 		add(tabBar, BorderLayout.CENTER);
 	}
 }
