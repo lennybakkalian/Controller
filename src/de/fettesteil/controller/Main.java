@@ -45,7 +45,7 @@ public class Main {
 				loadingFrame.setText("Login...");
 			}
 			// LOGGED IN
-			tableServer = new Server("MasterServer", "-", masterServer.getInetAddress().toString());
+			tableServer = new Server(null, "MasterServer", "-", masterServer.getInetAddress().toString(), true);
 			mainFrame.serversPanel.repaintServers();
 			
 			new Thread(new TickThread()).start();

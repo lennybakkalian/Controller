@@ -3,8 +3,6 @@ package de.fettesteil.controller;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.sun.xml.internal.ws.client.SenderException;
-
 import de.fettesteil.controller.packets.LoginResponse;
 import de.fettesteil.controller.packets.Packet;
 import de.fettesteil.controller.packets.PingTestPacket;
