@@ -53,7 +53,7 @@ public class AddServerPanel extends JPanel {
 				String keystr = key.getText();
 				String locationstr = location.getText();
 				String ipstr = ip.getText();
-				String portstr = ip.getText();
+				String portstr = port.getText();
 				int portint = -1;
 
 				// just check clientside

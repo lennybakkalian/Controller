@@ -3,6 +3,7 @@ package de.fettesteil.controller;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import de.fettesteil.controller.packets.BroadcastPacket;
 import de.fettesteil.controller.packets.LoginResponse;
 import de.fettesteil.controller.packets.Packet;
 import de.fettesteil.controller.packets.PingTestPacket;
@@ -38,10 +39,13 @@ public class ReadThread extends Thread {
 					case Packet.PINGTEST_RECV:
 						// calc ping
 						int newPing = (int) (System.currentTimeMillis() - TickThread.sendPing);
-						if(newPing != TickThread.ping){
+						if (newPing != TickThread.ping) {
 							TickThread.ping = newPing;
 							Main.mainFrame.serversPanel.repaintServers();
 						}
+						break;
+					case Packet.BROADCAST:
+						BroadcastPacket.process(json);
 						break;
 					}
 				} catch (Exception e) {

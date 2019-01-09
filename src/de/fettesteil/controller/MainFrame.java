@@ -19,7 +19,6 @@ public class MainFrame extends JFrame {
 		super("Server Controller");
 		setLayout(new BorderLayout());
 		setSize(1280, 720);
-		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		serversPanel = new ServersPanel();
@@ -27,7 +26,7 @@ public class MainFrame extends JFrame {
 		
 		tabBar = new JTabbedPane();
 		tabBar.add("Servers", serversPanel);
-		tabBar.add("Add Server", addServerPanel);
+		//tabBar.add("Add Server", addServerPanel);
 		add(tabBar, BorderLayout.CENTER);
 	}
 }
