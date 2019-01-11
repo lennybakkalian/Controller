@@ -23,7 +23,6 @@ public class ServersPanel extends JPanel {
 
 	private DefaultTableModel tableModel;
 	private String[] columnName = { "Status", "Name", "Standort", "Adresse", "Ping", "UUID" };
-	public List<Server> servers = new ArrayList<Server>();
 	private JTable serverList;
 
 	public ServersPanel() {
@@ -49,24 +48,13 @@ public class ServersPanel extends JPanel {
 		add(new JScrollPane(serverList), BorderLayout.CENTER);
 	}
 
-	public void addServer(Server s) {
-		servers.add(s);
-		repaintServers();
-	}
-
-	public void deleteServer(Server s) {
-		servers.remove(s);
-		repaintServers();
-	}
-
 	public void repaintServers() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				tableModel.setRowCount(0);
-				tableModel.addRow(new Object[] { "ONLINE", Main.tableServer.getName(), "",
-						Main.tableServer.getAddress(), String.valueOf(TickThread.ping), "" });
-				for (Server s : servers)
+				tableModel.addRow(new Object[] { "ONLINE", Main.tableServer.getName(), "",Main.HOST + ":" + Main.PORT, String.valueOf(TickThread.ping), "" });
+				for (Server s : Main.childServers)
 					tableModel.addRow(new Object[] { s.isOnline() ? "ONLINE" : "OFFLINE", s.getName(), s.getLocation(),
 							s.getAddress(), s.getPing(), s.getUuid().toString() });
 				for (int i = 0; i < serverList.getColumnCount(); i++) {

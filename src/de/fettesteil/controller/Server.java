@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Server {
 
 	private String name, location, address;
-	private String ping = "-";
+	private String ping = "";
 	private boolean online;
 	private UUID uuid;
 
@@ -15,6 +15,14 @@ public class Server {
 		this.address = address;
 		this.online = online;
 		this.uuid = uuid;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getName() {
@@ -33,8 +41,8 @@ public class Server {
 		return ping;
 	}
 
-	public void setPing(int ping) {
-		this.ping = String.valueOf(ping);
+	public void setPing(String ping) {
+		this.ping = ping;
 	}
 
 	public boolean isOnline() {

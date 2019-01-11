@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
-import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import de.fettesteil.controller.packets.LoginPacket;
 import de.fettesteil.controller.packets.Packet;
@@ -22,6 +23,7 @@ public class Main {
 	public static boolean authenticated = false;
 	public static String ADMIN_KEY = "test";
 	public static Server tableServer;
+	public static List<Server> childServers = new ArrayList<Server>();
 
 	public static void main(String args[]) {
 		try {
@@ -47,7 +49,7 @@ public class Main {
 			// LOGGED IN
 			tableServer = new Server(null, "MasterServer", "-", masterServer.getInetAddress().toString(), true);
 			mainFrame.serversPanel.repaintServers();
-			
+
 			new Thread(new TickThread()).start();
 			loadingFrame.setVisible(false);
 			mainFrame.setVisible(true);
@@ -67,5 +69,12 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static Server getByUUID(UUID uuid) {
+		for (int i = 0; i < Main.childServers.size(); i++)
+			if (Main.childServers.get(i).getUuid().toString().equals(uuid.toString()))
+				return Main.childServers.get(i);
+		return null;
 	}
 }

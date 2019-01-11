@@ -7,6 +7,7 @@ import de.fettesteil.controller.packets.BroadcastPacket;
 import de.fettesteil.controller.packets.LoginResponse;
 import de.fettesteil.controller.packets.Packet;
 import de.fettesteil.controller.packets.PingTestPacket;
+import de.fettesteil.controller.packets.ServerDataPacket;
 
 public class ReadThread extends Thread {
 
@@ -46,6 +47,9 @@ public class ReadThread extends Thread {
 						break;
 					case Packet.BROADCAST:
 						BroadcastPacket.process(json);
+						break;
+					case Packet.SEND_SERVERDATA:
+						ServerDataPacket.process(json);
 						break;
 					}
 				} catch (Exception e) {
