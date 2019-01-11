@@ -20,11 +20,14 @@ public class ServerDataPacket {
 			String location = (String) serverJson.get("location");
 			String ping = (String) serverJson.get("ping");
 			String address = (String) serverJson.get("address");
+			boolean isOnline = (boolean) serverJson.get("online");
 			// get server by uuid or create new if not exist
 			Server s = Main.getByUUID(uuid);
 			if (s == null) {
 				s = new Server(uuid, name, location, address, true);
-				s.setPing(ping);
+				s.setOnline(isOnline);
+				if (ping != null)
+					s.setPing(ping);
 				Main.childServers.add(s);
 				updateTable = true;
 			} else {
@@ -36,8 +39,12 @@ public class ServerDataPacket {
 					s.setLocation(location);
 					updateTable = true;
 				}
-				if (!s.getPing().equals(ping)) {
+				if (ping != null && !s.getPing().equals(ping)) {
 					s.setPing(ping);
+					updateTable = true;
+				}
+				if (s.isOnline() != isOnline) {
+					s.setOnline(isOnline);
 					updateTable = true;
 				}
 			}
